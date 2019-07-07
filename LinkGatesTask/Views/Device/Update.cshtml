@@ -1,0 +1,35 @@
+﻿@model DeviceModel
+@{
+    ViewBag.Title = "Update";
+    ViewBag.BtnTitle = "Update";
+}
+
+<div>
+    @Html.Partial("AddOrUpdate",Model)
+</div>
+
+@section scripts{
+    <script>
+            function getproperties(id) {
+                var categoryID = id;
+                var Myurl = '@Url.Action("GetProperties","Property")' + "?CategoryID=" + categoryID;
+                $.ajax({
+                    type: "GET",
+                    url: Myurl,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (result, status, xhr) {
+                        console.log(result);
+                        document.getElementById('partialPlaceHolder').innerHTML = result;
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        document.getElementById('partialPlaceHolder').innerHTML = "Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText;
+                    }
+                });
+            }
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

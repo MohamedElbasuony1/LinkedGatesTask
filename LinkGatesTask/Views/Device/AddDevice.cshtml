@@ -1,0 +1,85 @@
+﻿@model DeviceModel
+@{
+    ViewBag.Title = "AddDevice";
+    ViewBag.BtnTitle = "Add";
+}
+
+<div>
+    @Html.Partial("AddOrUpdate")
+</div>
+
+<div id="Devicelist">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Device Name</th>
+                <th>Serial Number</th>
+                <th>Acquition Date</th>
+                <th>Memo</th>
+                <th>Category</th>
+                <th>Properties Value</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if ((ViewBag.DeviceList as IEnumerable<LinkGatesTask.Models.Device>).Count() != 0)
+            {
+                foreach (LinkGatesTask.Models.Device item in ViewBag.DeviceList)
+                {
+                    <tr>
+                        <td>@item.Dev_Name</td>
+                        <td>@item.SerialNumber</td>
+                        <td>@item.Acquisition_Date</td>
+                        <td>@item.Memo</td>
+                        <td>@item.Category.Cati_Name</td>
+                        <td>
+                            @foreach (LinkGatesTask.Models.PropertyValue propertyValue in item.PropertyValues )
+                            {
+                                <h5>
+                                    @propertyValue.Property.Description : @propertyValue.Value
+                                </h5>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Update", 
+                                                        new { DeviceID = item.Dev_Id }, 
+                                                        new { @class = "btn btn-warning" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">there is no student data</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+            function getproperties(id) {
+                var categoryID = id;
+                var Myurl = '@Url.Action("GetProperties","Property")' + "?CategoryID=" + categoryID;
+                $.ajax({
+                    type: "GET",
+                    url: Myurl,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (result, status, xhr) {
+                        console.log(result);
+                        document.getElementById('partialPlaceHolder').innerHTML = result;
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        document.getElementById('partialPlaceHolder').innerHTML = "Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText;
+                    }
+                });
+        }
+             getproperties(1);
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

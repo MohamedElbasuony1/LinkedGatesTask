@@ -1,0 +1,16 @@
+﻿@model DeviceModel
+
+@for (int i = 0; i < Model.PropertyValues.Count; i++)
+{
+    <div class="form-group">
+        @Html.Label(Model.PropertyValues[i].Description, new { @class = "col-sm-3 label-control" })
+        <div class="col-sm-6 ">
+            @Html.HiddenFor(a => a.PropertyValues[i].Prop_Id)
+            @Html.HiddenFor(a => a.PropertyValues[i].Description)
+            @Html.TextBoxFor(a => a.PropertyValues[i].Value, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-6 bg-danger">
+            @Html.ValidationMessageFor(a => a.PropertyValues[i].Value)
+        </div>
+    </div>
+}

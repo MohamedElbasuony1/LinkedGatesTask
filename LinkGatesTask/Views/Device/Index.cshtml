@@ -1,0 +1,23 @@
+﻿@model LinkGatesTask.DTOs.DeviceModel
+@{
+    ViewBag.Title = "Index";
+    ViewBag.BtnTitle = "Add";
+}
+
+<h2>Index</h2>
+
+@{Html.RenderAction("AddDevice");}
+
+
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>

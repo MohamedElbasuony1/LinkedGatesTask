@@ -1,0 +1,81 @@
+﻿@model DeviceModel
+
+@using (Html.BeginForm())
+{
+    <div class="container-fluid form-horizontal">
+        <h2 class="form-signin-heading">Add Device</h2>
+        <br />
+        @Html.HiddenFor(a=>a.Dev_Id)
+        <div class="form-group">
+            @Html.LabelFor(a => a.Dev_Name, new { @class = "col-sm-3 label-control" })
+            <div class="col-sm-6 ">
+                @Html.TextBoxFor(a => a.Dev_Name, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6 bg-danger">
+                @Html.ValidationMessageFor(a => a.Dev_Name)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.SerialNumber, new { @class = "col-sm-3 label-control" })
+            <div class="col-sm-6 ">
+                @Html.TextBoxFor(a => a.SerialNumber, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6 bg-danger">
+                @Html.ValidationMessageFor(a => a.SerialNumber)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Acquisition_Date, new { @class = "col-sm-3 label-control" })
+            <div class="col-sm-6 ">
+                @*<input class="form-control" data-datepicker="true" name="Acquisition_Date" value="@Model.Acquisition_Date.Split(' ')[0]" >*@
+                @Html.TextBoxFor(a => a.Acquisition_Date, new { @class = "form-control",data_datepicker="true",value=Html.DisplayFor(a=>a.Acquisition_Date) })
+            </div>
+            <div class="col-sm-6 bg-danger">
+                @Html.ValidationMessageFor(a => a.Acquisition_Date)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Memo, new { @class = "col-sm-3 label-control" })
+            <div class="col-sm-6 ">
+                @Html.TextBoxFor(a => a.Memo, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-6 bg-danger">
+                @Html.ValidationMessageFor(a => a.Memo)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Cati_Id, new { @class = "col-sm-3 label-control" })
+            <div class="col-sm-6 ">
+                @Html.DropDownListFor(a => a.Cati_Id, null,new { @class = "form-control",id = "Categorylistid",onChange = "getproperties(this.value)" })
+            </div>
+            <div class="col-sm-6 bg-danger">
+                @Html.ValidationMessageFor(a => a.Cati_Id)
+            </div>
+        </div>
+        
+        <div id="partialPlaceHolder">
+            @if (Model != null)
+            {
+                for (int i = 0; i < Model.PropertyValues.Count; i++)
+                {
+            <div class="form-group">
+                @Html.Label(Model.PropertyValues[i].Description, new { @class = "col-sm-3 label-control" })
+                <div class="col-sm-6 ">
+                    @Html.HiddenFor(a => a.PropertyValues[i].Prop_Id)
+                    @Html.HiddenFor(a => a.PropertyValues[i].Description)
+                    @Html.TextBoxFor(a => a.PropertyValues[i].Value, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-6 bg-danger">
+                    @Html.ValidationMessageFor(a => a.PropertyValues[i].Value)
+                </div>
+            </div>
+                }
+            }
+        </div>
+        <input type="submit" value="@ViewBag.BtnTitle" class="btn btn-success" />
+    </div>
+}
+
+
+
+
